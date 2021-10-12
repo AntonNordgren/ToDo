@@ -11,7 +11,7 @@ namespace ToDo.Tests
         [Theory]
         [InlineData("Kalle", "Anka")]
         [InlineData("Anton", "Nordgren")]
-        public void createPersonCorrectly(string firstName, string lastName)
+        public void CreatePersonCorrectly(string firstName, string lastName)
         {
             sut = new Person(firstName, lastName);
 
@@ -24,7 +24,7 @@ namespace ToDo.Tests
         [InlineData(null, "asd")]
         [InlineData("asd", "")]
         [InlineData("asd", null)]
-        public void throwExeptionWithInvalidParameters(string firstName, string lastName)
+        public void ThrowExeptionWithInvalidParameters(string firstName, string lastName)
         {
             Assert.Throws<ArgumentException>(() => sut = new Person(firstName, lastName));
         }

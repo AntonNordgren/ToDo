@@ -6,8 +6,8 @@ namespace Model
 {
     public class Person
     {
-        private static int idCounter = 0;
-        public static int IdCounter { get { return idCounter; } }
+        private static readonly int idCounter = 0;
+        public int IdCounter { get { return idCounter; } }
 
         private readonly int personId;
         public int PersonId { get { return personId; } }
