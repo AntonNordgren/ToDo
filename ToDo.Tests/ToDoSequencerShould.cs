@@ -11,14 +11,15 @@ namespace ToDo.Tests
         [Fact]
         public void GetNextToDoId()
         {
-            int result = TodoSequencer.nextToDoId();
+            TodoSequencer.Reset();
+            int result = TodoSequencer.NextToDoId();
             Assert.Equal(1, result);
         }
 
         [Fact]
         public void ResetId()
         {
-            TodoSequencer.reset();
+            TodoSequencer.Reset();
             Assert.Equal(0, TodoSequencer.ToDoId);
         }
     }

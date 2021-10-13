@@ -9,12 +9,12 @@ namespace ToDo.Data
         private static int toDoId = 0;
         public static int ToDoId { get { return toDoId; } }
 
-        public static int nextToDoId()
+        public static int NextToDoId()
         {
             return ++toDoId;
         }
 
-        public static void reset()
+        public static void Reset()
         {
             toDoId = 0;
         }
