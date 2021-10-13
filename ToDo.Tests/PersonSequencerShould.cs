@@ -11,14 +11,14 @@ namespace ToDo.Tests
         [Fact]
         public void GetNextPersonId()
         {
-            int result = PersonSequencer.nextPersonId();
+            int result = PersonSequencer.NextPersonId();
             Assert.Equal(1, result);
         }
 
         [Fact]
         public void ResetId()
         {
-            PersonSequencer.reset();
+            PersonSequencer.Reset();
             Assert.Equal(0, PersonSequencer.PersonId);
         }
     }

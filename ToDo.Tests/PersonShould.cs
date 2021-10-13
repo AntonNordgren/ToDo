@@ -9,24 +9,24 @@ namespace ToDo.Tests
        Person sut;
 
         [Theory]
-        [InlineData("Kalle", "Anka")]
-        [InlineData("Anton", "Nordgren")]
-        public void CreatePersonCorrectly(string firstName, string lastName)
+        [InlineData(1, "Kalle", "Anka")]
+        [InlineData(2, "Anton", "Nordgren")]
+        public void CreatePersonCorrectly(int personId, string firstName, string lastName)
         {
-            sut = new Person(firstName, lastName);
+            sut = new Person(personId, firstName, lastName);
 
             Assert.Equal(sut.FirstName, firstName);
             Assert.Equal(sut.LastName, lastName);
         }
 
         [Theory]
-        [InlineData("", "asd")]
-        [InlineData(null, "asd")]
-        [InlineData("asd", "")]
-        [InlineData("asd", null)]
-        public void ThrowExeptionWithInvalidParameters(string firstName, string lastName)
+        [InlineData(1, "", "asd")]
+        [InlineData(2, null, "asd")]
+        [InlineData(3, "asd", "")]
+        [InlineData(4, "asd", null)]
+        public void ThrowExeptionWithInvalidParameters(int personId, string firstName, string lastName)
         {
-            Assert.Throws<ArgumentException>(() => sut = new Person(firstName, lastName));
+            Assert.Throws<ArgumentException>(() => sut = new Person(personId, firstName, lastName));
         }
     }
 }

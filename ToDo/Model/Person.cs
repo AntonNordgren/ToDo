@@ -6,11 +6,13 @@ namespace Model
 {
     public class Person
     {
-        private static readonly int idCounter = 0;
-        public int IdCounter { get { return idCounter; } }
+        // private static readonly int idCounter = 0;
+        // public int IdCounter { get { return idCounter; } }
 
         private readonly int personId;
-        public int PersonId { get { return personId; } }
+        public int PersonId {
+            get { return personId; }
+        }
 
         private string firstName;
         public string FirstName
@@ -42,9 +44,9 @@ namespace Model
             }
         }
 
-        public Person(string firstName, string lastName)
+        public Person(int personId, string firstName, string lastName)
         {
-            personId = IdCounter + 1;
+            this.personId = personId;
             FirstName = firstName;
             LastName = lastName;
         }
