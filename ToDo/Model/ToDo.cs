@@ -11,13 +11,33 @@ namespace ToDo.Model
         public int ToDoId { get { return todoId; } }
         private readonly string description;
         public string Desciption { get { return description; } }
-        private readonly bool done;
-        private readonly Person assignee;
+        private bool done;
+        public bool Done {
+            get { 
+                return done;
+            }
+            set
+            {
+                done = value;
+            }
+        }
+        private Person assignee;
+        public Person Assignee {
+            get {
+                return assignee;
+            }
+            set
+            {
+                assignee = value;
+            }
+        }
 
         public ToDo(int toDoId, string description)
         {
             todoId = toDoId;
             this.description = description;
+            Done = false;
+            Assignee = null;
         }
     }
 }

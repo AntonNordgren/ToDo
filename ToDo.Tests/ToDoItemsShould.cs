@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using ToDo.Data;
@@ -66,7 +67,6 @@ namespace ToDo.Tests
         public void GetSize()
         {
             sut.Clear();
-
             sut.CreateToDo("Add Something");
             sut.CreateToDo("Delete Something");
 
@@ -82,6 +82,94 @@ namespace ToDo.Tests
             sut.Clear();
 
             Assert.Equal(newArray, sut.FindAll());
+        }
+
+        [Fact]
+        public void FindAllByDoneStatus()
+        {
+            sut.Clear();
+            Model.ToDo newToDo1 = sut.CreateToDo("Do Something");
+            Model.ToDo newToDo2 = sut.CreateToDo("Do Something Else");
+            Model.ToDo newToDo3 = sut.CreateToDo("Do Something Good");
+
+            newToDo1.Done = false;
+            newToDo2.Done = true;
+            newToDo3.Done = true;
+
+            Model.ToDo[] result = sut.FindByDoneStatus(true);
+
+            foreach (Model.ToDo todo in result)
+            {
+                Assert.True(todo.Done);
+            }
+        }
+
+        [Fact]
+        public void FindAllByPersonId()
+        {
+            sut.Clear();
+            Model.ToDo newToDo1 = sut.CreateToDo("Do Something");
+            Model.ToDo newToDo2 = sut.CreateToDo("Do Something Else");
+            Model.ToDo newToDo3 = sut.CreateToDo("Do Something Good");
+
+            Person person1 = new Person(1, "Kalle", "Anka");
+            Person person2 = new Person(2, "Musse", "Pigg");
+
+            newToDo1.Assignee = person1;
+            newToDo2.Assignee = person2;
+            newToDo3.Assignee = person2;
+
+            Model.ToDo[] result = sut.FindByAssignee(2);
+
+            foreach (Model.ToDo todo in result)
+            {
+                Assert.Equal(2, todo.Assignee.PersonId);
+            }
+        }
+
+        [Fact]
+        public void FindAllByAssignee()
+        {
+            sut.Clear();
+            Model.ToDo newToDo1 = sut.CreateToDo("Do Something");
+            Model.ToDo newToDo2 = sut.CreateToDo("Do Something Else");
+            Model.ToDo newToDo3 = sut.CreateToDo("Do Something Good");
+
+            Person person1 = new Person(1, "Kalle", "Anka");
+            Person person2 = new Person(2, "Musse", "Pigg");
+
+            newToDo1.Assignee = person1;
+            newToDo2.Assignee = person2;
+            newToDo3.Assignee = person2;
+
+            Model.ToDo[] result = sut.FindByAssignee(person2);
+
+            foreach(Model.ToDo todo in result)
+            {
+                Assert.Equal(person2, todo.Assignee);
+            }
+        }
+
+        [Fact]
+        public void FindUnassignedTodoItems()
+        {
+            sut.Clear();
+            Model.ToDo newToDo1 = sut.CreateToDo("Do Something");
+            sut.CreateToDo("Do Something Else");
+            Model.ToDo newToDo3 = sut.CreateToDo("Do Something Good");
+
+            Person person1 = new Person(1, "Kalle", "Anka");
+            Person person2 = new Person(2, "Musse", "Pigg");
+
+            newToDo1.Assignee = person1;
+            newToDo3.Assignee = person2;
+
+            Model.ToDo[] result = sut.FindUnassignedTodoItems();
+
+            foreach (Model.ToDo todo in result)
+            {
+                Assert.Null(todo.Assignee);
+            }
         }
     }
 }
