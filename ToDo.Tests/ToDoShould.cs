@@ -18,5 +18,6 @@ namespace ToDo.Tests
             Assert.Equal(id, sut.ToDoId);
             Assert.Equal(description, sut.Desciption);
         }
+
     }
 }

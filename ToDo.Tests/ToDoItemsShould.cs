@@ -28,7 +28,6 @@ namespace ToDo.Tests
 
             Assert.Equal(expected[1].ToDoId, sut.FindAll()[1].ToDoId);
             Assert.Equal(expected[1].Desciption, sut.FindAll()[1].Desciption);
-
             sut.Clear();
         }
 
@@ -46,7 +45,6 @@ namespace ToDo.Tests
 
             Assert.Equal(expected.Desciption, result.Desciption);
             Assert.Equal(expected.ToDoId, result.ToDoId);
-
         }
 
         [Theory]
@@ -170,6 +168,32 @@ namespace ToDo.Tests
             {
                 Assert.Null(todo.Assignee);
             }
+        }
+
+        [Fact]
+        public void DeleteTodoCorrectly()
+        {
+            ToDo.Data.ToDoItems x = new ToDo.Data.ToDoItems();
+            x.Clear();
+
+            x.CreateToDo("Do Something 1");
+            x.CreateToDo("Do Something 2");
+            x.CreateToDo("Do Something 3");
+
+            x.CreateToDo("Do Something 4");
+            x.CreateToDo("Do Something 5");
+            x.CreateToDo("Do Something 6");
+
+            x.RemoveTodo(3);
+            x.RemoveTodo(5);
+
+            Assert.Equal(4, x.FindAll().Length);
+            Assert.Equal("Do Something 1", x.FindById(1).Desciption);
+            Assert.Equal("Do Something 2", x.FindById(2).Desciption);
+            // Assert.Equal("Do Something 3", x.FindById(3).Desciption);
+            Assert.Equal("Do Something 4", x.FindById(4).Desciption);
+            // Assert.Equal("Do Something 5", x.FindById(5).Desciption);
+            Assert.Equal("Do Something 6", x.FindById(6).Desciption);
         }
     }
 }

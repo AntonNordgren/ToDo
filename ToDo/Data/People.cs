@@ -47,5 +47,22 @@ namespace ToDo.Data
             people = new Person[0];
             PersonSequencer.Reset();
         }
+
+        public void RemovePerson(int personId)
+        {
+            Person[] newPeople = new Person[people.Length - 1];
+            int newPeopleIndex = 0;
+
+            foreach(Person person in people)
+            {
+                if (person.PersonId != personId)
+                {
+                    newPeople[newPeopleIndex] = person;
+                    newPeopleIndex++;
+                }
+            }
+
+            people = newPeople;
+        }
     }
 }

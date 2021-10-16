@@ -29,8 +29,6 @@ namespace ToDo.Tests
             Assert.Equal(expected[1].PersonId, sut.FindAll()[1].PersonId);
             Assert.Equal(expected[1].FirstName, sut.FindAll()[1].FirstName);
             Assert.Equal(expected[1].LastName, sut.FindAll()[1].LastName);
-
-            sut.Clear();
         }
 
         [Theory]
@@ -86,6 +84,34 @@ namespace ToDo.Tests
             sut.Clear();
 
             Assert.Equal(s, sut.FindAll());
+        }
+
+        [Fact]
+        public void DeletePersonCorrectly()
+        {
+            sut.Clear();
+            ToDo.Data.People x = new ToDo.Data.People();
+
+            x.CreateNewPerson("firstName1", "lastName1"); // Ta bort
+            x.CreateNewPerson("firstName2", "lastName2");
+            x.CreateNewPerson("firstName3", "lastName3"); // Ta bort
+            x.CreateNewPerson("firstName4", "lastName4");
+            x.CreateNewPerson("firstName5", "lastName5"); // Ta bort
+
+            x.RemovePerson(1);
+            x.RemovePerson(3);
+            x.RemovePerson(5);
+
+            Assert.Equal(2, x.FindAll().Length);
+
+            Person[] newArray = x.FindAll();
+
+            Assert.Equal("firstName2", newArray[0].FirstName);
+            Assert.Equal("lastName2", newArray[0].LastName);
+
+            Assert.Equal("firstName4", newArray[1].FirstName);
+            Assert.Equal("lastName4", newArray[1].LastName);
+
         }
 
     }

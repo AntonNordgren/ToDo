@@ -157,5 +157,50 @@ namespace ToDo.Data
             return allWithNotAssigneeTodos;
         }
 
+        public void RemoveTodo(int toDoId)
+        {
+            ToDo.Model.ToDo[] newToDos = new ToDo.Model.ToDo[todos.Length - 1];
+            int newToDosIndex = 0;
+
+            foreach (Model.ToDo todo in todos)
+            {
+                if (todo.ToDoId != toDoId)
+                {
+                    newToDos[newToDosIndex] = todo;
+                    newToDosIndex++;
+                }
+            }
+
+            todos = newToDos;
+
+            //Model.ToDo[] newToDos = new Model.ToDo[todos.Length - 1];
+            //int removeTodoIndex = 0;
+
+            //for (int i = 0; i < todos.Length; i++)
+            //{
+            //    if(todos[i].ToDoId == toDoId)
+            //    {
+            //        removeTodoIndex = i;
+            //    }
+            //}
+
+            //for(int i = 0; i < removeTodoIndex; i++)
+            //{
+            //    newToDos[i] = todos[i];
+            //}
+
+            //for (int i = removeTodoIndex; i < todos.Length - 1; i++)
+            //{
+            //    todos[i] = todos[i + 1];
+            //}
+
+
+            //for(int i = 0; i < newToDos.Length; i++)
+            //{
+            //    newToDos[i] = todos[i];
+            //}
+
+            //todos = newToDos;
+        }
     }
 }
