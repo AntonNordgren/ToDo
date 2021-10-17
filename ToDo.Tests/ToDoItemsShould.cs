@@ -55,10 +55,10 @@ namespace ToDo.Tests
             sut.CreateToDo("Add Something");
             sut.CreateToDo("Delete Something");
 
-            ToDo.Model.ToDo result = sut.FindById(toDoId);
-            ToDo.Model.ToDo expected = new ToDo.Model.ToDo(toDoId, "Add Something");
+            ArgumentException result = Assert.Throws<ArgumentException>(
+                () => sut.FindById(toDoId));
 
-            Assert.Null(result);
+            Assert.Equal("Couldn't find todo with that id", result.Message);
         }
 
         [Fact]
@@ -110,14 +110,14 @@ namespace ToDo.Tests
             Model.ToDo newToDo2 = sut.CreateToDo("Do Something Else");
             Model.ToDo newToDo3 = sut.CreateToDo("Do Something Good");
 
-            Person person1 = new Person(1, "Kalle", "Anka");
-            Person person2 = new Person(2, "Musse", "Pigg");
+            Person person1 = new Person("FirstName1", "FirstName1");
+            Person person2 = new Person("FirstName2", "FirstName2");
 
             newToDo1.Assignee = person1;
             newToDo2.Assignee = person2;
             newToDo3.Assignee = person2;
 
-            Model.ToDo[] result = sut.FindByAssignee(2);
+            Model.ToDo[] result = sut.FindByAssignee(person2);
 
             foreach (Model.ToDo todo in result)
             {
@@ -133,8 +133,8 @@ namespace ToDo.Tests
             Model.ToDo newToDo2 = sut.CreateToDo("Do Something Else");
             Model.ToDo newToDo3 = sut.CreateToDo("Do Something Good");
 
-            Person person1 = new Person(1, "Kalle", "Anka");
-            Person person2 = new Person(2, "Musse", "Pigg");
+            Person person1 = new Person("FirstName1", "LastName1");
+            Person person2 = new Person("FirstName2", "LastName2");
 
             newToDo1.Assignee = person1;
             newToDo2.Assignee = person2;
@@ -156,8 +156,8 @@ namespace ToDo.Tests
             sut.CreateToDo("Do Something Else");
             Model.ToDo newToDo3 = sut.CreateToDo("Do Something Good");
 
-            Person person1 = new Person(1, "Kalle", "Anka");
-            Person person2 = new Person(2, "Musse", "Pigg");
+            Person person1 = new Person("FirstName1", "LastName1");
+            Person person2 = new Person("FirstName2", "LastName2");
 
             newToDo1.Assignee = person1;
             newToDo3.Assignee = person2;
@@ -173,8 +173,8 @@ namespace ToDo.Tests
         [Fact]
         public void DeleteTodoCorrectly()
         {
+            sut.Clear();
             ToDo.Data.ToDoItems x = new ToDo.Data.ToDoItems();
-            x.Clear();
 
             x.CreateToDo("Do Something 1");
             x.CreateToDo("Do Something 2");
@@ -185,15 +185,23 @@ namespace ToDo.Tests
             x.CreateToDo("Do Something 6");
 
             x.RemoveTodo(3);
-            x.RemoveTodo(5);
+            x.RemoveTodo(6);
+        }
 
-            Assert.Equal(4, x.FindAll().Length);
-            Assert.Equal("Do Something 1", x.FindById(1).Desciption);
-            Assert.Equal("Do Something 2", x.FindById(2).Desciption);
-            // Assert.Equal("Do Something 3", x.FindById(3).Desciption);
-            Assert.Equal("Do Something 4", x.FindById(4).Desciption);
-            // Assert.Equal("Do Something 5", x.FindById(5).Desciption);
-            Assert.Equal("Do Something 6", x.FindById(6).Desciption);
+        [Fact]
+        public void DeleteInvalidToDoShouldThrowExcepion()
+        {
+            sut.Clear();
+            ToDo.Data.ToDoItems x = new ToDo.Data.ToDoItems();
+
+            x.CreateToDo("Do Something 1");
+            x.CreateToDo("Do Something 2");
+            x.CreateToDo("Do Something 3");
+
+            ArgumentException result = Assert.Throws<ArgumentException>(
+                () => sut.RemoveTodo(4));
+
+            Assert.Equal("Couldn't find todo with that id", result.Message);
         }
     }
 }

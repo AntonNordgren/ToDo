@@ -10,17 +10,21 @@ namespace ToDo.Data
     {
         private static Model.ToDo[] todos = new Model.ToDo[0];
 
+        // Returns the size of the todo array
         public int Size()
         {
             return todos.Length;
         }
 
+        // Returns the todo array
         public Model.ToDo[] FindAll()
         {
             return todos;
         }
 
-        public ToDo.Model.ToDo FindById(int toDoId)
+        // Returns the first todo with the right todoId
+        // If not found throws exception
+        public Model.ToDo FindById(int toDoId)
         {
             for (int i = 0; i < todos.Length; i++)
             {
@@ -30,9 +34,10 @@ namespace ToDo.Data
                 }
             }
 
-            return null;
+            throw new ArgumentException("Couldn't find todo with that id");
         }
 
+        // Create new todo resize the todos array and put the new todo last in the array
         public Model.ToDo CreateToDo(string description)
         {
             Model.ToDo newToDo = new Model.ToDo(TodoSequencer.NextToDoId(), description);
@@ -43,12 +48,18 @@ namespace ToDo.Data
             return newToDo;
         }
 
+        // Create new todo that is empty
+        // Reset TodoSequenser too
         public void Clear()
         {
             todos = new Model.ToDo[0];
             TodoSequencer.Reset();
         }
 
+        // Finds out the number of the same doneStatuses in  the TodoArray
+        // Create a new array with the size of the done statuses
+        // It goes through the todos array and puts the todos with the done status in it
+        // Return the array with all of the same donestatus
         public Model.ToDo[] FindByDoneStatus(bool doneStatus)
         {
             int statusCounter = 0;
@@ -76,6 +87,10 @@ namespace ToDo.Data
             return allDoneStatusTodos;
         }
 
+        // Finds out the number of the same personId in  the TodoArray
+        // Create a new array with the size of the same personId
+        // It goes through the todos array and puts the todos with the same assigne in it
+        // Return the array with all the assignees
         public Model.ToDo[] FindByAssignee(int personId)
         {
             int personIdCounter = 0;
@@ -103,6 +118,10 @@ namespace ToDo.Data
             return allPersonIdTodos;
         }
 
+        // Finds out the number of the same Assignee in  the TodoArray
+        // Create a new array with the size of the same Assignee
+        // It goes through the todos array and puts the todos with the same assigne in it
+        // Return the array with all the assignees
         public Model.ToDo[] FindByAssignee(Person assignee)
         {
             int assigneeCounter = 0;
@@ -130,6 +149,10 @@ namespace ToDo.Data
             return allByAssigneeTodos;
         }
 
+        // Finds out the number of todos that are null
+        // Create a new array with the size of the null todos
+        // It goes through the todos array and puts the todos that are null in the new array
+        // Return the array with all the todos that are null
         public Model.ToDo[] FindUnassignedTodoItems()
         {
             int notAssigneeCounter = 0;
@@ -157,8 +180,28 @@ namespace ToDo.Data
             return allWithNotAssigneeTodos;
         }
 
+        // First it tries to find the id in the array
+        // If not found throw exception
+        // Create new array that is one shorter in length
+        // Fill the new array with the elements that dont have the same id
+        // replace the old person array with the new
         public void RemoveTodo(int toDoId)
         {
+            bool todoFound = false;
+            foreach (ToDo.Model.ToDo todo in todos)
+            {
+                if (todo.ToDoId == toDoId)
+                {
+                    todoFound = true;
+                    break;
+                }
+            }
+
+            if (!todoFound)
+            {
+                throw new ArgumentException("Couldn't find todo with that id");
+            }
+
             ToDo.Model.ToDo[] newToDos = new ToDo.Model.ToDo[todos.Length - 1];
             int newToDosIndex = 0;
 
@@ -172,35 +215,6 @@ namespace ToDo.Data
             }
 
             todos = newToDos;
-
-            //Model.ToDo[] newToDos = new Model.ToDo[todos.Length - 1];
-            //int removeTodoIndex = 0;
-
-            //for (int i = 0; i < todos.Length; i++)
-            //{
-            //    if(todos[i].ToDoId == toDoId)
-            //    {
-            //        removeTodoIndex = i;
-            //    }
-            //}
-
-            //for(int i = 0; i < removeTodoIndex; i++)
-            //{
-            //    newToDos[i] = todos[i];
-            //}
-
-            //for (int i = removeTodoIndex; i < todos.Length - 1; i++)
-            //{
-            //    todos[i] = todos[i + 1];
-            //}
-
-
-            //for(int i = 0; i < newToDos.Length; i++)
-            //{
-            //    newToDos[i] = todos[i];
-            //}
-
-            //todos = newToDos;
         }
     }
 }

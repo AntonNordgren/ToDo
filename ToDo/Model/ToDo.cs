@@ -11,7 +11,7 @@ namespace ToDo.Model
         public int ToDoId { get { return todoId; } }
         private readonly string description;
         public string Desciption { get { return description; } }
-        private bool done;
+        private bool done = false;
         public bool Done {
             get { 
                 return done;
@@ -21,7 +21,7 @@ namespace ToDo.Model
                 done = value;
             }
         }
-        private Person assignee;
+        private Person assignee = null;
         public Person Assignee {
             get {
                 return assignee;
@@ -36,8 +36,6 @@ namespace ToDo.Model
         {
             todoId = toDoId;
             this.description = description;
-            Done = false;
-            Assignee = null;
         }
     }
 }
